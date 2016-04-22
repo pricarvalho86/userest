@@ -1,0 +1,24 @@
+# Gradle
+# ------
+.gradle
+build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+gradle/wrapper/
+
+# Eclipse
+# -------
+*.classpath
+*.project
+*.settings
+bin/
+target/
+
+# Vim
+# ---
+*.sw[op]
+
+# OS X
+# ----
+.DS_Store
