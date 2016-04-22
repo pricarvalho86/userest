@@ -1,4 +1,4 @@
-package br.com.concrete.identity;
+package br.com.concrete.identity.model;
 
 public class Phone {
 
