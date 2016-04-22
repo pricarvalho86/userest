@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.concrete.identity.model.User;
@@ -16,9 +16,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value="/user", method=RequestMethod.POST)
-	public ResponseEntity<User> cadastrar(@RequestBody User user) {
-		if(userService.isExist(user)) throw new UserException();
+	@RequestMapping(value="/user", method=PUT)
+	public ResponseEntity<User> create(@RequestBody User user) {
+		if(userService.exist(user)) throw new UserException();
 		userService.save(user);
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}

@@ -4,7 +4,7 @@ import br.com.concrete.identity.model.User;
 
 public interface UserService {
 
-	boolean isExist(User user);
+	boolean exist(User user);
 
 	void save(User user);
 
