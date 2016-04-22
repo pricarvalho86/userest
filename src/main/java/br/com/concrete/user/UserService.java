@@ -1,6 +1,6 @@
-package br.com.concrete.identity;
+package br.com.concrete.user;
 
-import br.com.concrete.identity.model.User;
+import br.com.concrete.user.domain.User;
 
 public interface UserService {
 

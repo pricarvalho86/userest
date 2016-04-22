@@ -1,4 +1,4 @@
-package br.com.concrete.identity.model;
+package br.com.concrete.user.domain;
 
 import java.util.List;
 
@@ -50,5 +50,4 @@ public class User {
 	public void setPhones(List<Phone> phones) {
 		this.phones = phones;
 	}
-
 }

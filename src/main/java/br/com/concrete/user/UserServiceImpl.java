@@ -1,8 +1,8 @@
-package br.com.concrete.identity;
+package br.com.concrete.user;
 
 import org.springframework.stereotype.Service;
 
-import br.com.concrete.identity.model.User;
+import br.com.concrete.user.domain.User;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {

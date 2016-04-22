@@ -1,4 +1,4 @@
-package br.com.concrete.identity;
+package br.com.concrete.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.concrete.identity.model.User;
+import br.com.concrete.user.domain.User;
 
 @RestController
 public class UserController {
