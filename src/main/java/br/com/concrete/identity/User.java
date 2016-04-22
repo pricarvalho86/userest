@@ -4,19 +4,21 @@ import java.util.List;
 
 public class User {
 	
+	private Long id;
 	private String name;
 	private String email;
 	private String password;
 	
 	private List<Phone> phones;
 
-	public User(String name, String email, String password, List<Phone> phones) {
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.phones = phones;
+	public Long getId() {
+		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getName() {
 		return name;
 	}
