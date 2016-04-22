@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 	@RequestMapping(value ="/user", method = RequestMethod.POST)
-	public User user(@RequestBody User user) {
+	public User cadastrar(@RequestBody User user) {
 		return user;
 	}
 
