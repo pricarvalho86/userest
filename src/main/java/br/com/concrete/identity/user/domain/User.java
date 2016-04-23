@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,11 +23,13 @@ public class User {
 	private String id;
 	private String name;
 	private String email;
-	private String password;
 	
-	private Date created = new Date();
-	private Date modified = new Date();
-	private Date lastLogin = new Date();
+	@Embedded
+	private Password password;
+	
+	private Date created;
+	private Date modified;
+	private Date lastLogin;
 	
 	@OneToMany(cascade=CascadeType.PERSIST)
 	private List<Phone> phones;
@@ -42,9 +46,13 @@ public class User {
 	public User(String name, String email, String password, List<Phone> phones) {
 		this.name = name;
 		this.email = email;
-		this.password = password;
+		this.password = Password.generate(password);
 		this.phones = phones;
 		this.token = Token.generate(id);
+		Date currentDate = new Date();
+		this.created = currentDate;
+		this.modified = currentDate;
+		this.lastLogin = currentDate;
 	}
 
 	public String getId() {
@@ -72,11 +80,7 @@ public class User {
 	}
 
 	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+		return password.toString();
 	}
 	
 	public Date getCreated() {
@@ -123,4 +127,33 @@ public class User {
 	public void setPhones(List<Phone> phones) {
 		this.phones = phones;
 	}
+	
+	@Embeddable
+	public static class Password {
+		
+		private String password;
+		private String salt;
+
+		/**
+		 * @deprecated: Hibernate Eyes Only
+		 */
+		@Deprecated
+		Password() {}
+		
+		private Password(String password, String salt) {
+			this.password = password;
+			this.salt = salt;
+		}
+
+		public static Password generate(String password) {
+			return new Password(password, "");
+		}
+		
+		@Override
+		public String toString() {
+			return password.toString();
+		}
+		
+	}
+	
 }
