@@ -1,4 +1,4 @@
-package br.com.concrete.identity;
+package br.com.concrete.identity.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
