@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 public class User {
@@ -132,7 +133,6 @@ public class User {
 	public static class Password {
 		
 		private String password;
-		private String salt;
 
 		/**
 		 * @deprecated: Hibernate Eyes Only
@@ -140,13 +140,18 @@ public class User {
 		@Deprecated
 		Password() {}
 		
-		private Password(String password, String salt) {
+		private Password(String password) {
 			this.password = password;
-			this.salt = salt;
 		}
 
 		public static Password generate(String password) {
-			return new Password(password, "");
+			String hashPassword = hashGenerate(password);
+			return new Password(hashPassword);
+		}
+		
+		private static String hashGenerate(String password) {
+			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+			return bcrypt.encode(password);
 		}
 		
 		@Override
