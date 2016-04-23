@@ -1,11 +1,14 @@
 package br.com.concrete.identity.user.domain;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.auth0.jwt.JWTSigner;
 
 @Entity
 public class Token {
@@ -43,16 +46,18 @@ public class Token {
 		this.code = code;
 	}
 	
-	public Date getExpiration() {
-		return expiration;
+	public String getExpiration() {
+		return expiration.toString();
 	}
 	
 	public void setExpiration(Date expiration) {
 		this.expiration = expiration;
 	}
 	
-	public static Token generate() {
-		return new Token("blablablabalblabla", new Date());
+	public static Token generate(String userId) {
+		Date expirationDate = new Date();
+		String token = new JWTSigner(userId+expirationDate).sign(new HashMap<>()).toString();
+		return new Token(token, expirationDate);
 	}
 	
 	@Override

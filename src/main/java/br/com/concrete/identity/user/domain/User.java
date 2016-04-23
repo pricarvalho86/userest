@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,7 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.id.UUIDGenerator;
 
 @Entity
 public class User {
@@ -46,7 +44,7 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.phones = phones;
-		this.token = Token.generate();
+		this.token = Token.generate(id);
 	}
 
 	public String getId() {
@@ -105,8 +103,13 @@ public class User {
 		this.lastLogin = lastLogin;
 	}
 	
-	public Token getToken() {
-		return token;
+	public Token token() {
+		
+		return this.token;
+	}
+	
+	public String getToken() {
+		return token.toString();
 	}
 	
 	public void setToken(Token token) {
