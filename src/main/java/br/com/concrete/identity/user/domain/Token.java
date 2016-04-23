@@ -54,9 +54,9 @@ public class Token {
 		this.expiration = expiration;
 	}
 	
-	public static Token generate(String password) {
+	public static Token generate(String userId) {
 		Date expirationDate = new Date();
-		String token = new JWTSigner(password+expirationDate).sign(new HashMap<>()).toString();
+		String token = new JWTSigner(userId+expirationDate).sign(new HashMap<>()).toString();
 		return new Token(token, expirationDate);
 	}
 	

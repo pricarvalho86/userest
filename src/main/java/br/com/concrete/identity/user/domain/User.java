@@ -44,7 +44,7 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.phones = phones;
-		this.token = Token.generate(password);
+		this.token = Token.generate(id);
 	}
 
 	public String getId() {
