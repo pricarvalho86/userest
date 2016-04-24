@@ -51,7 +51,7 @@ public class User {
 		this.email = email.toLowerCase();
 		this.password = Password.generate(password);
 		this.phones = phones;
-		this.token = Token.generate(id);
+		this.token = Token.generate(email);
 		Date currentDate = new Date();
 		this.created = currentDate;
 		this.modified = currentDate;
