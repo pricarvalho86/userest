@@ -2,7 +2,10 @@ package br.com.concrete.identity.user.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import br.com.concrete.identity.user.UserAlreadyCreatedException;
+import br.com.concrete.identity.user.Users;
 import br.com.concrete.identity.user.domain.Phone;
 import br.com.concrete.identity.user.domain.User;
 
@@ -14,7 +17,12 @@ public class UserCreationRequest {
 	
 	private List<PhoneCreationRequest> phones;
 	
-	public User toUser() {
+	public User toUser(Users users) {
+		Optional<User> alreadySavedUser = users.findByEmail(this.email);
+		if (alreadySavedUser.isPresent()) {
+			throw new UserAlreadyCreatedException();
+		}
+		
 		return new User(name, email, password, getPhonesList());
 	}
 

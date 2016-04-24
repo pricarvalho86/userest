@@ -1,11 +1,13 @@
 package br.com.concrete.identity.user;
 
+import java.util.Optional;
+
 import br.com.concrete.identity.user.domain.User;
 
 public interface Users {
 
 	void save(User user);
 
-	User findByEmail(String email);
+	Optional<User> findByEmail(String email);
 
 }

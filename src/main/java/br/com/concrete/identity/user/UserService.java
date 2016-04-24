@@ -13,8 +13,9 @@ public class UserService {
 	private Users users;
 	
 	public User create(UserCreationRequest userCreation) {
-		User user = userCreation.toUser();
+		User user = userCreation.toUser(users);
 		users.save(user);
+		
 		return user;
 	}
 
