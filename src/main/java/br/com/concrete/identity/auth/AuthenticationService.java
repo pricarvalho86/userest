@@ -12,8 +12,14 @@ public class AuthenticationService {
 	@Autowired
 	private Users users;
 	
-	public User findUser(AuthenticationRequest authentication) {
-		return users.findByEmail(authentication.getEmail());
+	public User authenticate(AuthenticationRequest userAuth) {
+		try {
+			User user = users.findByEmail(userAuth.getEmail());
+			if (!user.isValidPassword(userAuth)) throw new AuthenticationException();
+			return user;
+		} catch (Exception e) {
+			throw new AuthenticationException();
+		}
 	}
 
 }

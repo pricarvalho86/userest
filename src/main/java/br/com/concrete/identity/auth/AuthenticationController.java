@@ -19,7 +19,7 @@ public class AuthenticationController {
 
 	@RequestMapping(value="/login", method=POST)
 	public ResponseEntity<User> create(@RequestBody AuthenticationRequest login) {
-		User user = authService.findUser(login);
+		User user = authService.authenticate(login);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
