@@ -6,4 +6,6 @@ public interface Users {
 
 	void save(User user);
 
+	User findByEmail(String email);
+
 }

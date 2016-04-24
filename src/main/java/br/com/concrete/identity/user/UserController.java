@@ -19,7 +19,6 @@ public class UserController {
 
 	@RequestMapping(value="/user", method=PUT)
 	public ResponseEntity<User> create(@RequestBody UserCreationRequest userCreate) {
-		if(userService.exist(userCreate)) throw new UserException();
 		User user = userService.create(userCreate);
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}

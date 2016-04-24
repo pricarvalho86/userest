@@ -15,6 +15,8 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import br.com.concrete.identity.auth.AuthenticationRequest;
+
 @Entity
 public class User {
 	
@@ -46,7 +48,7 @@ public class User {
 	
 	public User(String name, String email, String password, List<Phone> phones) {
 		this.name = name;
-		this.email = email;
+		this.email = email.toLowerCase();
 		this.password = Password.generate(password);
 		this.phones = phones;
 		this.token = Token.generate(id);
@@ -134,6 +136,8 @@ public class User {
 		
 		private String password;
 
+		private static final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+		
 		/**
 		 * @deprecated: Hibernate Eyes Only
 		 */
@@ -150,7 +154,6 @@ public class User {
 		}
 		
 		private static String hashGenerate(String password) {
-			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 			return bcrypt.encode(password);
 		}
 		
@@ -158,7 +161,15 @@ public class User {
 		public String toString() {
 			return password.toString();
 		}
+
+		public boolean isValid(String password) {
+			return bcrypt.matches(password, this.password);
+		}
 		
+	}
+
+	public boolean isValidPassword(AuthenticationRequest userAuth) {
+		return this.password.isValid(userAuth.getPassword());
 	}
 	
 }

@@ -12,10 +12,6 @@ public class UserService {
 	@Autowired
 	private Users users;
 	
-	public boolean exist(UserCreationRequest user)  {
-		return user.getEmail().equals("teste@teste.com.br");
-	}
-
 	public User create(UserCreationRequest userCreation) {
 		User user = userCreation.toUser();
 		users.save(user);
