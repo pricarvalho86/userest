@@ -1,5 +1,7 @@
 package br.com.concrete.identity.auth;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +15,14 @@ public class AuthenticationService {
 	private Users users;
 	
 	public User authenticate(AuthenticationRequest userAuth) {
-		try {
-			User user = users.findByEmail(userAuth.getEmail());
-			if (!user.isValidPassword(userAuth)) throw new AuthenticationException();
-			return user;
-		} catch (Exception e) {
+		Optional<User> user = users.findByEmail(userAuth.getEmail());
+		
+		if (!user.isPresent() || 
+				!user.get().isValidPassword(userAuth)) {
 			throw new AuthenticationException();
 		}
+		
+		return user.get();
 	}
 
 }

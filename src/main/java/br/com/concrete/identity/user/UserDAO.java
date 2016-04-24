@@ -1,5 +1,7 @@
 package br.com.concrete.identity.user;
 
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -18,19 +20,18 @@ public class UserDAO implements Users {
 	@Transactional
 	@Override
 	public void save(User user) {
-		try {
-			findByEmail(user.getEmail());
-			throw new UserException();
-		} catch (NoResultException e) {
-			em.persist(user);
-		}
+		em.persist(user);
 	}
 
 	@Override
-	public User findByEmail(String email) throws RuntimeException {
-		User user = em.createQuery("from User where email = :email", User.class)
-				.setParameter("email", email.toLowerCase()).getSingleResult();
-		return user;			
+	public Optional<User> findByEmail(String email) {
+		try {
+			User user = em.createQuery("from User where email = :email", User.class)
+					.setParameter("email", email.toLowerCase()).getSingleResult();
+			return Optional.of(user);
+		} catch (NoResultException e) {
+			return Optional.empty();			
+		}
 	}
 
 }
