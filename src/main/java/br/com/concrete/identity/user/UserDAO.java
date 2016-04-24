@@ -20,4 +20,11 @@ public class UserDAO implements Users {
 		em.persist(user);
 	}
 
+	@Override
+	public User findByEmail(String email) {
+		User user = em.createQuery("from User where email = :email", User.class)
+					.setParameter("email", email.toLowerCase()).getSingleResult();
+		return user;
+	}
+
 }

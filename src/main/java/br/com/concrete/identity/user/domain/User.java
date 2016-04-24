@@ -46,7 +46,7 @@ public class User {
 	
 	public User(String name, String email, String password, List<Phone> phones) {
 		this.name = name;
-		this.email = email;
+		this.email = email.toLowerCase();
 		this.password = Password.generate(password);
 		this.phones = phones;
 		this.token = Token.generate(id);
