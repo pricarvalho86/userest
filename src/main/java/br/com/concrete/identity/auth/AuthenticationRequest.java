@@ -1,9 +1,16 @@
 package br.com.concrete.identity.auth;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+
 public class AuthenticationRequest {
 	
+	@NotNull
+	@Email
 	private String email;
 	
+	@NotNull
 	private String password;
 	
 	public String getEmail() {

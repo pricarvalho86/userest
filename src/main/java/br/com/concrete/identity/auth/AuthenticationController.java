@@ -2,6 +2,8 @@ package br.com.concrete.identity.auth;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ public class AuthenticationController {
 	private AuthenticationService authService;
 
 	@RequestMapping(value="/login", method=POST)
-	public ResponseEntity<User> create(@RequestBody AuthenticationRequest login) {
+	public ResponseEntity<User> create(@RequestBody @Valid AuthenticationRequest login) {
 		User user = authService.authenticate(login);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
