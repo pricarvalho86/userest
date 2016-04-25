@@ -10,27 +10,51 @@ import br.com.concrete.identity.user.domain.User;
 public class UserAddressRequest {
 
 	@NotNull
-	private String logradouro;
+	private String street;
 	
 	@NotNull
-	private String numero;
+	private String number;
 	
 	@NotNull
-	private String bairro;
+	private String neighborhood;
 	
 	@NotNull
-	private String cidade;
+	private String city;
 	
 	@NotNull
 	@Size(max=2)
-	private String estado;
+	private String state;
 	
 	@NotNull
 	@Pattern(regexp="^[0-9]{5}-[0-9]{3}$")
-	private String cep;
+	private String zipcode;
 	
 	public Address toAddress(User user) {
-		return new Address(logradouro, numero, bairro, cidade, estado, cep, user);
+		return new Address(street, number, neighborhood, city, state, zipcode, user);
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public String getNeighborhood() {
+		return neighborhood;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public String getZipcode() {
+		return zipcode;
 	}
 
 }

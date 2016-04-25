@@ -14,17 +14,17 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String logradouro;
+	private String street;
+	
+	private String number;
+	
+	private String neighborhood;
+	
+	private String city;
+	
+	private String state;
 
-	private String numero;
-
-	private String bairro;
-
-	private String cidade;
-
-	private String estado;
-
-	private String cep;
+	private String zipcode;
 
 	@OneToOne(cascade=CascadeType.ALL)
 	private User user;
@@ -35,13 +35,13 @@ public class Address {
 	@Deprecated
 	Address() {}
 	
-	public Address(String logradouro, String numero, String bairro, String cidade, String estado, String cep, User user) {
-		this.logradouro = logradouro;
-		this.numero = numero;
-		this.bairro = bairro;
-		this.cidade = cidade;
-		this.estado = estado;
-		this.cep = cep;
+	public Address(String street, String number, String neighborhood, String city, String state, String zipcode, User user) {
+		this.street = street;
+		this.number = number;
+		this.neighborhood = neighborhood;
+		this.city = city;
+		this.state = state;
+		this.zipcode = zipcode;
 		this.user = user;
 	}
 
@@ -53,60 +53,60 @@ public class Address {
 		this.id = id;
 	}
 
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public String getNeighborhood() {
+		return neighborhood;
+	}
+
+	public void setNeighborhood(String neighborhood) {
+		this.neighborhood = neighborhood;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+	
+	public String getZipcode() {
+		return zipcode;
+	}
+	
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+
 	public User getUser() {
 		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public String getLogradouro() {
-		return logradouro;
-	}
-
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
-	}
-
-	public String getNumero() {
-		return numero;
-	}
-
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
-
-	public String getBairro() {
-		return bairro;
-	}
-
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
 	}
 	
 }
