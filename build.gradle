@@ -45,3 +45,10 @@ task wrapper(type: Wrapper) {
 task stage {
   dependsOn build
 }
+
+task copyToLib(type: Copy) {
+    into "$buildDir/lib"
+    from(configurations.compile)
+}
+
+stage.dependsOn(copyToLib)
