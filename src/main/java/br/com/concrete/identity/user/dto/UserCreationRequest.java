@@ -36,8 +36,9 @@ public class UserCreationRequest {
 	}
 
 	private List<Phone> getPhonesList() {
-		List<Phone> phones = new ArrayList<>();
+		List<Phone> phones = null;
 		if (this.phones != null) {
+			phones = new ArrayList<>();
 			for (PhoneCreationRequest phoneCreation : this.phones) {
 				phones.add(phoneCreation.toPhone());
 			}

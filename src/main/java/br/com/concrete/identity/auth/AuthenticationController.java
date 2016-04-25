@@ -21,14 +21,14 @@ public class AuthenticationController {
 	private AuthenticationService authService;
 
 	@RequestMapping(value="/login", method=POST)
-	public ResponseEntity<User> logout(@RequestBody @Valid AuthenticationRequest login, HttpServletResponse response) {
+	public ResponseEntity<User> login(@RequestBody @Valid AuthenticationRequest login, HttpServletResponse response) {
 		User user = authService.authenticate(login);
 		response.setHeader("x-auth-token", user.getToken());
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/logout", method=POST)
-	public HttpStatus login(HttpServletResponse response) {
+	public HttpStatus logout(HttpServletResponse response) {
 		response.setHeader("x-auth-token", null);
 		return HttpStatus.OK;
 	}

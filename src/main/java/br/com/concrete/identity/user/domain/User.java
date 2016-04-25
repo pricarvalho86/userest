@@ -1,6 +1,8 @@
 package br.com.concrete.identity.user.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,9 +15,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.joda.time.DateTime;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import br.com.concrete.identity.auth.AuthenticationRequest;
+import com.auth0.jwt.JWTSigner;
 
 @Entity
 public class User {
@@ -37,9 +40,12 @@ public class User {
 	@OneToMany(cascade=CascadeType.PERSIST)
 	private List<Phone> phones;
 	
-	@Transient
-	private String token;
+	@Embedded
+	private Token token;
 
+	@Transient
+	private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	
 	/**
 	 * @deprecated: Hibernate Eyes Only
 	 */
@@ -55,8 +61,21 @@ public class User {
 		this.created = currentDate;
 		this.modified = currentDate;
 		this.lastLogin = currentDate;
+		this.token = Token.generate(this);
 	}
 
+	public boolean isPasswordValid(String password) {
+		return this.password.isValid(password);
+	}
+
+	public boolean tokenExpirated() {
+		return this.token.isExpirated(this.lastLogin);
+	}
+
+	public void generateToken() {
+		this.token = Token.generate(this);
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -85,24 +104,24 @@ public class User {
 		return password.toString();
 	}
 	
-	public Date getCreated() {
-		return created;
+	public String getCreated() {
+		return dateFormat.format(created);
 	}
 
 	public void setCreated(Date created) {
 		this.created = created;
 	}
 
-	public Date getModified() {
-		return modified;
+	public String getModified() {
+		return dateFormat.format(modified);
 	}
 
 	public void setModified(Date modified) {
 		this.modified = modified;
 	}
 
-	public Date getLastLogin() {
-		return lastLogin;
+	public String getLastLogin() {
+		return dateFormat.format(lastLogin);
 	}
 
 	public void setLastLogin(Date lastLogin) {
@@ -110,10 +129,10 @@ public class User {
 	}
 	
 	public String getToken() {
-		return token;
+		return this.token.toString();
 	}
 	
-	public void setToken(String token) {
+	public void setToken(Token token) {
 		this.token = token;
 	}
 
@@ -143,27 +162,51 @@ public class User {
 		}
 
 		public static Password generate(String password) {
-			String hashPassword = hashGenerate(password);
+			String hashPassword = bcrypt.encode(password);
 			return new Password(hashPassword);
 		}
 		
-		private static String hashGenerate(String password) {
-			return bcrypt.encode(password);
+		public boolean isValid(String password) {
+			return bcrypt.matches(password, this.password);
 		}
-		
+
 		@Override
 		public String toString() {
 			return password.toString();
 		}
-
-		public boolean isValid(String password) {
-			return bcrypt.matches(password, this.password);
-		}
 		
 	}
+	
+	@Embeddable
+	public static class Token {
 
-	public boolean isValidPassword(AuthenticationRequest userAuth) {
-		return this.password.isValid(userAuth.getPassword());
+		private String token;
+		
+		/**
+		 * @deprecated: Hibernate Eyes Only
+		 */
+		@Deprecated
+		Token() {}
+		
+		private Token(String token) {
+			this.token = token;
+		}
+
+		public static Token generate(User user) {
+			String token = new JWTSigner(user.email+user.lastLogin).sign(new HashMap<>()).toString();
+			return new Token(token);
+		}
+
+		public boolean isExpirated(Date lastLogin) {
+			DateTime currenteDate = new DateTime();
+			DateTime expirationDate = new DateTime(lastLogin).plusMinutes(30);
+			return  currenteDate.isAfter(expirationDate);
+		}
+		
+		@Override
+		public String toString() {
+			return this.token;
+		}
 	}
 	
 }

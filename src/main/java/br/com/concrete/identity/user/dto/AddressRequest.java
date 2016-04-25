@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 import br.com.concrete.identity.user.domain.Address;
 import br.com.concrete.identity.user.domain.User;
 
-public class UserAddressRequest {
+public class AddressRequest {
 
 	@NotNull
 	private String street;

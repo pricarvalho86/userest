@@ -1,7 +1,7 @@
 package br.com.concrete.identity.user;
 
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.concrete.identity.user.domain.Address;
-import br.com.concrete.identity.user.domain.Token;
 import br.com.concrete.identity.user.domain.User;
-import br.com.concrete.identity.user.dto.UserAddressRequest;
+import br.com.concrete.identity.user.dto.AddressRequest;
 import br.com.concrete.identity.user.dto.UserCreationRequest;
 
 @RestController
@@ -37,27 +36,21 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/user/address", method=POST)
-	public ResponseEntity<Address> createAddress(@RequestBody @Valid UserAddressRequest userAdress, HttpServletRequest request, HttpServletResponse response) {
-		String tokenCode = request.getHeader("x-auth-token");
-		User user = userService.findByToken(tokenCode).get().getUser();
-		user.setToken(tokenCode);
-		Address adressUser = userService.createUserAdress(userAdress.toAddress(user));
-		response.setHeader("x-auth-token" , tokenCode);
+	public ResponseEntity<Address> createAddress(@RequestBody @Valid AddressRequest userAdress, HttpServletRequest request, HttpServletResponse response) {
+		String token = request.getHeader("x-auth-token");
+		Optional<User> user = userService.findByToken(token);
+		Address adressUser = userService.createUserAdress(userAdress.toAddress(user.get()));
+		response.setHeader("x-auth-token" , token);
 		return new ResponseEntity<Address>(adressUser, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value="/user/address", method=GET)
 	public ResponseEntity<List<Address>> addressess(HttpServletRequest request, HttpServletResponse response) {
-		String tokenCode = request.getHeader("x-auth-token");
-		Optional<Token> token = userService.findByToken(tokenCode);
-		if (token.isPresent()) {
-			User user = token.get().getUser();
-			user.setToken(tokenCode);
-			List<Address> adresses = userService.listAddressesBy(user);
-			response.setHeader("x-auth-token" , tokenCode);
-			return new ResponseEntity<List<Address>>(adresses, HttpStatus.OK);
-		}
-		return new ResponseEntity<List<Address>>(HttpStatus.NO_CONTENT);
+		String token = request.getHeader("x-auth-token");
+		Optional<User> user = userService.findByToken(token);
+		List<Address> adresses = userService.listAddressesBy(user.get());
+		response.setHeader("x-auth-token" , token);
+		return new ResponseEntity<List<Address>>(adresses, HttpStatus.OK);
 	}
 
 }

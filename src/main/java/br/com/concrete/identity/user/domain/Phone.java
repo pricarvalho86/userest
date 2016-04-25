@@ -12,7 +12,7 @@ public class Phone {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String ddd;
+	private Integer ddd;
 	private String number;
 
 	/**
@@ -21,16 +21,16 @@ public class Phone {
 	@Deprecated
 	Phone() {}
 	
-	public Phone(String ddd, String number) {
+	public Phone(Integer ddd, String number) {
 		this.ddd = ddd;
 		this.number = number;
 	}
 
-	public String getDdd() {
+	public Integer getDdd() {
 		return ddd;
 	}
 	
-	public void setDdd(String ddd) {
+	public void setDdd(Integer ddd) {
 		this.ddd = ddd;
 	}
 	
