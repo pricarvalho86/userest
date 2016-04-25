@@ -1,5 +1,6 @@
 package br.com.concrete.identity.user.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -26,8 +27,8 @@ public class TokenDAO implements Tokens {
 	@Override
 	public Optional<Token> findByCode(String tokenCode) {
 		try {
-			Token token = em.createQuery("from Token where code = :token", Token.class)
-					.setParameter("token", tokenCode).getSingleResult();
+			Token token = em.createQuery("from Token where code = :token order by id desc", Token.class)
+					.setParameter("token", tokenCode).setFirstResult(0).getSingleResult();
 			return Optional.of(token);
 		} catch (NoResultException e) {
 			return Optional.empty();			
