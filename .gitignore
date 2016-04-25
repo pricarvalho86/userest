@@ -3,9 +3,9 @@
 .gradle
 build/
 gradle-app.setting
-!gradle-wrapper.jar
+#!gradle-wrapper.jar
 .gradletasknamecache
-gradle/wrapper/
+#gradle/wrapper/
 
 # Eclipse
 # -------
