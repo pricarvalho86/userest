@@ -37,6 +37,13 @@ public class UserControllerTest {
 		RestAssured.port = 8080;
 	}
 	
+	@Test(expected=IllegalArgumentException.class)
+	public void deveRetornarErroAoTentarCadastrarUmUsuarioEnviandoContentTypeDiferenteDeApplicationJson() {
+		List<Phone> phones = Arrays.asList(new Phone(011, "1234-5678"));
+		User user = new User("Fulano Teste", "teste@teste.com.br", "fulano", phones);
+		given().contentType("text/plain").body(user).post("/user");
+	}
+	
 	@Test
 	public void deveCadastrarUmUsuarioERetornarJsonComTokenGerado() {
 		List<Phone> phones = Arrays.asList(new Phone(011, "1234-5678"));

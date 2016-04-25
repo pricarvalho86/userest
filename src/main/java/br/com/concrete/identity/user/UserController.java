@@ -2,6 +2,7 @@ package br.com.concrete.identity.user;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,7 @@ import br.com.concrete.identity.user.dto.AddressRequest;
 import br.com.concrete.identity.user.dto.UserCreationRequest;
 
 @RestController
+@RequestMapping(produces=APPLICATION_JSON_VALUE, consumes=APPLICATION_JSON_VALUE)
 public class UserController {
 	
 	@Autowired
