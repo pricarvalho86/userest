@@ -55,9 +55,10 @@ public class UserService {
 		return tokens.findByCode(tokenCode);
 	}
 
-	public void createUserAdress(Address address) {
+	public Address createUserAdress(Address address) {
 		address.getUser().setModified(new Date());
 		addresses.save(address);
+		return address;
 	}
 
 

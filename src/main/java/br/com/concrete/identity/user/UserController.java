@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.concrete.identity.user.domain.Address;
 import br.com.concrete.identity.user.domain.Token;
 import br.com.concrete.identity.user.domain.User;
 import br.com.concrete.identity.user.dto.UserAddressRequest;
@@ -34,13 +35,13 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/user/address", method=POST)
-	public ResponseEntity<User> createAddress(@RequestBody @Valid UserAddressRequest userAdress, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<Address> createAddress(@RequestBody @Valid UserAddressRequest userAdress, HttpServletRequest request, HttpServletResponse response) {
 		String tokenCode = request.getHeader("x-auth-token");
 		Optional<Token> token = userService.findByToken(tokenCode);
 		User user = token.get().getUser();
-		userService.createUserAdress(userAdress.toAddress(user));
+		Address adressUser = userService.createUserAdress(userAdress.toAddress(user));
 		response.setHeader("x-auth-token" , token.toString());
-		return new ResponseEntity<User>(user, HttpStatus.CREATED);
+		return new ResponseEntity<Address>(adressUser, HttpStatus.CREATED);
 	}
 
 }
