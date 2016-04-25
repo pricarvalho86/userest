@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.concrete.identity.auth.UnauthorizedException;
 import br.com.concrete.identity.user.dao.Addresses;
-import br.com.concrete.identity.user.dao.Tokens;
 import br.com.concrete.identity.user.dao.Users;
 import br.com.concrete.identity.user.domain.Address;
-import br.com.concrete.identity.user.domain.Token;
 import br.com.concrete.identity.user.domain.User;
 import br.com.concrete.identity.user.dto.UserCreationRequest;
 
@@ -23,37 +21,30 @@ public class UserService {
 	private Users users;
 	
 	@Autowired
-	private Tokens tokens;
-	
-	@Autowired
 	private Addresses addresses;
 	
 	public User create(UserCreationRequest userCreation) {
 		User user = userCreation.toUser(users);
 		users.save(user);
-		createToken(user);
 		return user;
 	}
 	
-	public Token createToken(User user) {
-		Token token = Token.generate(user);
-		user.setToken(token.toString());
-		user.setLastLogin(new Date());
-		tokens.save(token);
-		return token;
+	public User createToken(User user) {
+		user.generateToken();
+		return users.update(user);
 	}
 	
 	public boolean isTokenValid(String tokenCode) {
-		Optional<Token> token = this.findByToken(tokenCode);
-		if (!token.isPresent() || token.get().isExpirated()) {
+		Optional<User> user = this.findByToken(tokenCode);
+		if (!user.isPresent() || user.get().tokenExpirated()) {
 			throw new UnauthorizedException();
 		}
 		return true;
 	}
 
-	public Optional<Token> findByToken(String tokenCode) {
+	public Optional<User> findByToken(String tokenCode) {
 		if (tokenCode == null) throw new UnauthorizedException();
-		return tokens.findByCode(tokenCode);
+		return users.findByToken(tokenCode);
 	}
 
 	public Address createUserAdress(Address address) {

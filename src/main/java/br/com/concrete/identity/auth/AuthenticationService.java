@@ -1,5 +1,6 @@
 package br.com.concrete.identity.auth;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,13 @@ public class AuthenticationService {
 	
 	public User authenticate(AuthenticationRequest userAuth) {
 		Optional<User> user = users.findByEmail(userAuth.getEmail());
-		if (!user.isPresent() || 
-				!user.get().isValidPassword(userAuth)) {
+		if (!user.isPresent() || !user.get().isPasswordValid(userAuth.getPassword())) {
 			throw new AuthenticationException();
 		}
-		userService.createToken(user.get());
-		return user.get();
+		User userAuthenticated = user.get();
+		userAuthenticated.setLastLogin(new Date());
+		userService.createToken(userAuthenticated);
+		return users.update(userAuthenticated);
 	}
 
 }
