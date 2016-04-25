@@ -1,5 +1,6 @@
 package br.com.concrete.identity.user.domain;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.persistence.CascadeType;
@@ -53,7 +54,7 @@ public class Token {
 	}
 	
 	public static Token generate(User user) {
-		String token = new JWTSigner(user.getPassword()).sign(new HashMap<>()).toString();
+		String token = new JWTSigner(user.getEmail()+new Date()).sign(new HashMap<>()).toString();
 		return new Token(token, user);
 	}
 	
