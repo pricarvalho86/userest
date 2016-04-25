@@ -1,5 +1,6 @@
 package br.com.concrete.identity.user.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class Address {
 
 	private String cep;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private User user;
 	
 	/**

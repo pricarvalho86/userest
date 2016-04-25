@@ -1,6 +1,5 @@
 package br.com.concrete.identity.user.domain;
 
-import java.util.Date;
 import java.util.HashMap;
 
 import javax.persistence.CascadeType;
@@ -23,9 +22,7 @@ public class Token {
 	
 	private String code;
 	
-	private Date expiration = new DateTime().plusMinutes(30).toDate();
-	
-	@OneToOne(cascade=CascadeType.PERSIST)
+	@OneToOne(cascade=CascadeType.ALL)
 	private User user;
 	
 	/**
@@ -55,14 +52,6 @@ public class Token {
 		this.code = code;
 	}
 	
-	public String getExpiration() {
-		return expiration.toString();
-	}
-	
-	public void setExpiration(Date expiration) {
-		this.expiration = expiration;
-	}
-	
 	public static Token generate(User user) {
 		String token = new JWTSigner(user.getPassword()).sign(new HashMap<>()).toString();
 		return new Token(token, user);
@@ -82,6 +71,8 @@ public class Token {
 	}
 
 	public boolean isExpirated() {
-		return new Date().after(expiration);
+		DateTime currenteDate = new DateTime();
+		DateTime expirationDate = new DateTime(user.getLastLogin()).plusMinutes(30);
+		return  currenteDate.isAfter(expirationDate);
 	}
 }

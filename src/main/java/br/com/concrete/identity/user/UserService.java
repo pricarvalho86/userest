@@ -1,5 +1,6 @@
 package br.com.concrete.identity.user;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class UserService {
 	public Token createToken(User user) {
 		Token token = Token.generate(user);
 		user.setToken(token.toString());
+		user.setLastLogin(new Date());
 		tokens.save(token);
 		return token;
 	}
@@ -54,6 +56,7 @@ public class UserService {
 	}
 
 	public void createUserAdress(Address address) {
+		address.getUser().setModified(new Date());
 		addresses.save(address);
 	}
 
