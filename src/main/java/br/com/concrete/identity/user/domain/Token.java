@@ -3,14 +3,14 @@ package br.com.concrete.identity.user.domain;
 import java.util.Date;
 import java.util.HashMap;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.OneToOne;
 
 import org.joda.time.DateTime;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.auth0.jwt.JWTSigner;
 
@@ -20,11 +20,14 @@ public class Token {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private String code;
+	
 	private Date expiration = new DateTime().plusMinutes(30).toDate();
 	
-	@Transient
-	private String value;
+	@OneToOne(cascade=CascadeType.PERSIST)
+	private User user;
+	
 	/**
 	 * @deprecated: Hibernate Eyes Only
 	 */
@@ -35,9 +38,9 @@ public class Token {
 		return id;
 	}
 	
-	private Token(String code, String value) {
+	private Token(String code, User user) {
 		this.code = code;
-		this.value = value;
+		this.user = user;
 	}
 
 	public void setId(Long id) {
@@ -60,14 +63,25 @@ public class Token {
 		this.expiration = expiration;
 	}
 	
-	public static Token generate(String email) {
-		String token = new JWTSigner(email).sign(new HashMap<>()).toString();
-		String hash = new BCryptPasswordEncoder().encode(token);
-		return new Token(token, hash);
+	public static Token generate(User user) {
+		String token = new JWTSigner(user.getPassword()).sign(new HashMap<>()).toString();
+		return new Token(token, user);
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	@Override
 	public String toString() {
-		return value;
+		return this.code;
+	}
+
+	public boolean isExpirated() {
+		return new Date().after(expiration);
 	}
 }

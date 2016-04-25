@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,8 +37,8 @@ public class User {
 	@OneToMany(cascade=CascadeType.PERSIST)
 	private List<Phone> phones;
 	
-	@OneToOne(cascade=CascadeType.PERSIST)
-	private Token token;
+	@Transient
+	private String token;
 
 	/**
 	 * @deprecated: Hibernate Eyes Only
@@ -51,7 +51,6 @@ public class User {
 		this.email = email.toLowerCase();
 		this.password = Password.generate(password);
 		this.phones = phones;
-		this.token = Token.generate(email);
 		Date currentDate = new Date();
 		this.created = currentDate;
 		this.modified = currentDate;
@@ -110,16 +109,11 @@ public class User {
 		this.lastLogin = lastLogin;
 	}
 	
-	public Token token() {
-		
-		return this.token;
-	}
-	
 	public String getToken() {
-		return token.toString();
+		return token;
 	}
 	
-	public void setToken(Token token) {
+	public void setToken(String token) {
 		this.token = token;
 	}
 
