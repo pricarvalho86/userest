@@ -22,3 +22,4 @@ target/
 # OS X
 # ----
 .DS_Store
+dump.rdb

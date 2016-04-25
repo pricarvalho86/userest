@@ -4,15 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+
 import br.com.concrete.identity.user.UserAlreadyCreatedException;
-import br.com.concrete.identity.user.Users;
+import br.com.concrete.identity.user.dao.Users;
 import br.com.concrete.identity.user.domain.Phone;
 import br.com.concrete.identity.user.domain.User;
 
 public class UserCreationRequest {
 	
+	@NotNull
 	private String name;
+	
+	@NotNull @Email
 	private String email;
+	
+	@NotNull
 	private String password;
 	
 	private List<PhoneCreationRequest> phones;
@@ -28,8 +37,10 @@ public class UserCreationRequest {
 
 	private List<Phone> getPhonesList() {
 		List<Phone> phones = new ArrayList<>();
-		for (PhoneCreationRequest phoneCreation : this.phones) {
-			phones.add(phoneCreation.toPhone());
+		if (this.phones != null) {
+			for (PhoneCreationRequest phoneCreation : this.phones) {
+				phones.add(phoneCreation.toPhone());
+			}
 		}
 		return phones;
 	}
