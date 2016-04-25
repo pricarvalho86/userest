@@ -1,6 +1,7 @@
 package br.com.concrete.identity.user;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,10 @@ public class UserService {
 		address.getUser().setModified(new Date());
 		addresses.save(address);
 		return address;
+	}
+
+	public List<Address> listAddressesBy(User user) {
+		return addresses.listAllBy(user);
 	}
 
 

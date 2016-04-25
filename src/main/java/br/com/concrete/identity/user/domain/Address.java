@@ -26,7 +26,7 @@ public class Address {
 
 	private String zipcode;
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.MERGE)
 	private User user;
 	
 	/**
