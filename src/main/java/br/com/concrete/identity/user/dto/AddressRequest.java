@@ -22,11 +22,11 @@ public class AddressRequest {
 	private String city;
 	
 	@NotNull
-	@Size(min=2, max=2, message="Field must be exactly 2 characters")
+	@Size(min=2, max=2, message="{state.size.error}")
 	private String state;
 	
 	@NotNull
-	@Pattern(regexp="^[0-9]{5}-[0-9]{3}$", message="The pattern of this field is ##### - ###")
+	@Pattern(regexp="^[0-9]{5}-[0-9]{3}$", message="{zipcode.format.error}")
 	private String zipcode;
 	
 	public Address toAddress(User user) {
