@@ -17,9 +17,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		String uri = request.getRequestURI();
-		if (uri.equals("/user/")) return true;
-		
 		String tokenCode = request.getHeader("x-auth-token");
 		return userService.isTokenValid(tokenCode);
 	}

@@ -1,4 +1,4 @@
-package br.com.concrete.identity.user;
+package br.com.concrete.identity.user.dao;
 
 import br.com.concrete.identity.user.domain.Address;
 

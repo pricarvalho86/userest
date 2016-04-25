@@ -1,4 +1,4 @@
-package br.com.concrete.identity.user;
+package br.com.concrete.identity.user.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

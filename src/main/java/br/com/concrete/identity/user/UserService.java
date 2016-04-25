@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.concrete.identity.auth.UnauthorizedException;
+import br.com.concrete.identity.user.dao.Addresses;
+import br.com.concrete.identity.user.dao.Tokens;
+import br.com.concrete.identity.user.dao.Users;
 import br.com.concrete.identity.user.domain.Address;
 import br.com.concrete.identity.user.domain.Token;
 import br.com.concrete.identity.user.domain.User;
@@ -26,6 +29,7 @@ public class UserService {
 	public User create(UserCreationRequest userCreation) {
 		User user = userCreation.toUser(users);
 		users.save(user);
+		createToken(user);
 		return user;
 	}
 	

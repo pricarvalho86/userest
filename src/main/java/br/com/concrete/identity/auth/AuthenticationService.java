@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.concrete.identity.user.UserService;
-import br.com.concrete.identity.user.Users;
+import br.com.concrete.identity.user.dao.Users;
 import br.com.concrete.identity.user.domain.User;
 
 @Service("authenticationService")
@@ -15,6 +15,7 @@ public class AuthenticationService {
 	@Autowired
 	private Users users;
 	
+	@Autowired
 	private UserService userService;
 	
 	public User authenticate(AuthenticationRequest userAuth) {

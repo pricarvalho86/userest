@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;
 
 import br.com.concrete.identity.user.UserAlreadyCreatedException;
-import br.com.concrete.identity.user.Users;
+import br.com.concrete.identity.user.dao.Users;
 import br.com.concrete.identity.user.domain.Phone;
 import br.com.concrete.identity.user.domain.User;
 
