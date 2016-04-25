@@ -26,7 +26,7 @@ public class TokenDAO implements Tokens {
 	@Override
 	public Optional<Token> findByCode(String tokenCode) {
 		try {
-			Token token = em.createQuery("from Token where code = :token", Token.class)
+			Token token = em.createQuery("from Token where code = :token order by id desc", Token.class)
 					.setParameter("token", tokenCode).getSingleResult();
 			return Optional.of(token);
 		} catch (NoResultException e) {
