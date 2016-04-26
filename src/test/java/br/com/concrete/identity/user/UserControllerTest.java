@@ -22,13 +22,6 @@ import br.com.concrete.identity.user.dto.UserCreationRequest;
 import br.com.concrete.json.model.JsonException;
 
 public class UserControllerTest extends RestAssuredConfigTest  {
-	
-		@Test(expected=IllegalArgumentException.class)
-		public void deveRetornarErroAoTentarCadastrarUmUsuarioEnviandoContentTypeDiferenteDeApplicationJson() {
-			List<PhoneCreationRequest> phones = Arrays.asList(new PhoneCreationRequest(011, "1234-5678"));
-			UserCreationRequest user = new UserCreationRequest("Fulano Teste", "jacadastrado1@teste.com.br", "fulano", phones);
-			given().contentType("text/plain").body(user).post("/user");
-		}
 		
 		@Test
 		public void deveCadastrarUmUsuarioERetornarJsonComTokenGerado() {
