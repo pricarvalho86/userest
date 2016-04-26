@@ -4,7 +4,7 @@ API Rest de login simplificada sem manter dados na sessão do usuário
 
 ## Cadastro
 
-* POST - http://userest.herokuapp.com/user/ 
+* POST - http://userest.herokuapp.com/user
 
 ```json
     {
