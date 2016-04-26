@@ -14,6 +14,13 @@ public class PhoneCreationRequest {
 	@Pattern(regexp = "(\\d{3,5})-?(\\d{4})$", message="{phone.format.error}")
 	private String number;
 	
+	public PhoneCreationRequest() {}
+	
+	public PhoneCreationRequest(int ddd, String number) {
+		this.ddd = ddd;
+		this.number = number;
+	}
+
 	public Phone toPhone() {
 		return new Phone(ddd, number);
 	}

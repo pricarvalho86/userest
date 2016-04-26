@@ -29,6 +29,18 @@ public class AddressRequest {
 	@Pattern(regexp="^[0-9]{5}-[0-9]{3}$", message="{zipcode.format.error}")
 	private String zipcode;
 	
+	public AddressRequest() {
+	}
+	
+	public AddressRequest(String street, String number, String neighborhood, String city, String state, String zipcode) {
+		this.street = street;
+		this.number = number;
+		this.neighborhood = neighborhood;
+		this.city = city;
+		this.state = state;
+		this.zipcode = zipcode;
+	}
+
 	public Address toAddress(User user) {
 		return new Address(street, number, neighborhood, city, state, zipcode, user);
 	}

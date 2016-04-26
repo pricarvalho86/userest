@@ -26,6 +26,16 @@ public class UserCreationRequest {
 	
 	private List<PhoneCreationRequest> phones;
 	
+	public UserCreationRequest() {
+	}
+	
+	public UserCreationRequest(String name, String email, String password, List<PhoneCreationRequest> phones) {
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.phones = phones;
+	}
+
 	public User toUser(Users users) {
 		Optional<User> alreadySavedUser = users.findByEmail(this.email);
 		if (alreadySavedUser.isPresent()) {
