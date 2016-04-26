@@ -8,34 +8,17 @@ import static org.junit.Assert.assertNull;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 
-import br.com.concrete.Application;
-import br.com.concrete.conf.AppConfig;
+import br.com.concrete.RestAssuredConfigTest;
 import br.com.concrete.identity.user.domain.Phone;
 import br.com.concrete.identity.user.domain.User;
 import br.com.concrete.json.model.JsonException;
 
-@WebAppConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes={Application.class, AppConfig.class})
-@IntegrationTest("8080:0")
-public class UserControllerTest {
-	
-	@Before
-	public void before() {
-		RestAssured.port = 8080;
-	}
+public class CreateUserTest extends RestAssuredConfigTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void deveRetornarErroAoTentarCadastrarUmUsuarioEnviandoContentTypeDiferenteDeApplicationJson() {
