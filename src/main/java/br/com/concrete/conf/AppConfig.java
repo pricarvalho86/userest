@@ -22,7 +22,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(localeChangeInterceptor());
-		registry.addInterceptor(getAuthInterceptor()).excludePathPatterns("/error","/user/","/login");
+		registry.addInterceptor(getAuthInterceptor()).excludePathPatterns("/error","/user","/login");
 	}
 	
 	@Bean

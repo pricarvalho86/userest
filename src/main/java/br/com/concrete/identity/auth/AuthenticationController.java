@@ -1,5 +1,6 @@
 package br.com.concrete.identity.auth;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.concrete.identity.user.domain.User;
 
 @RestController
+@RequestMapping(produces=APPLICATION_JSON_VALUE, consumes=APPLICATION_JSON_VALUE)
 public class AuthenticationController {
 	
 	@Autowired

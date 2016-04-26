@@ -1,6 +1,5 @@
 package br.com.concrete.identity.user.domain;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,13 +11,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.joda.time.DateTime;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.auth0.jwt.JWTSigner;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class User {
@@ -32,9 +31,14 @@ public class User {
 	
 	@Embedded
 	private Password password;
-	
+
+	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
 	private Date created;
+
+    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
 	private Date modified;
+    
+    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
 	private Date lastLogin;
 	
 	@OneToMany(cascade=CascadeType.PERSIST)
@@ -43,9 +47,6 @@ public class User {
 	@Embedded
 	private Token token;
 
-	@Transient
-	private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	
 	/**
 	 * @deprecated: Hibernate Eyes Only
 	 */
@@ -104,24 +105,24 @@ public class User {
 		return password.toString();
 	}
 	
-	public String getCreated() {
-		return dateFormat.format(created);
+	public Date getCreated() {
+		return created;
 	}
 
 	public void setCreated(Date created) {
 		this.created = created;
 	}
 
-	public String getModified() {
-		return dateFormat.format(modified);
+	public Date getModified() {
+		return modified;
 	}
 
 	public void setModified(Date modified) {
 		this.modified = modified;
 	}
 
-	public String getLastLogin() {
-		return dateFormat.format(lastLogin);
+	public Date getLastLogin() {
+		return lastLogin;
 	}
 
 	public void setLastLogin(Date lastLogin) {
